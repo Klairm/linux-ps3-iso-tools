@@ -1,5 +1,5 @@
 # LINUX-PS3-ISO-TOOLS
-A GUI for use the iso tools created by Hermes
+A GUI for use the ps3 iso tools 
 
 You will need python3 for use this.
 
