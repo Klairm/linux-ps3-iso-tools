@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "PS3 ISO TOOLS"))
         self.PbExtract.setText(_translate("MainWindow", "Extract ISO"))
         self.PbConvertISO.setText(_translate("MainWindow", "Convert to ISO"))
         self.actionHow_to_use.setText(_translate("MainWindow", "How to use"))
