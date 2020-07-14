@@ -3,6 +3,9 @@ A GUI for use the iso tools created by Hermes
 
 You will need python3 for use this.
 
+## Using the release version:
+For use the release version you will need ( for now ) be in a 64bit machine with the python version: Python 3.8.3
+If you don't have a 64bit machine or you're on another version of Python 3, you need to execute the .py file, read below for more information
 
 ## Dependencies needed:
 python3, python3-pip, python3-pyqt5
@@ -19,10 +22,11 @@ cd LINUX-PS3-ISO-TOOLS
 ```
 ## Usage
 You could either double click on `PS3_ISO_Tools.py` (which depending on your distro can be executed) or run via terminal using `python3 PS3_ISO_Tools.py`
+
+
 ## TODO:
 - Add error handler ( right now if something goes wrong the GUI won't tell)
 - Optimize the progress bar ( or even replace it with a spinner ) 
-- Provide as single executable file
 - Provide a installer for different package managers to install the dependencies python3, python3-pip and python3-pyqt5
 
 
