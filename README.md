@@ -17,7 +17,7 @@ cd LINUX-PS3-ISO-TOOLS
 You could either double click on `PS3_ISO_Tools.py` (which depending on your distro can be executed) or run via terminal using `python3 PS3_ISO_Tools.py`
 ## TODO:
 - Add error handler ( right now if something goes wrong the GUI won't tell)
-- Optimize the progress bar
+- Optimize the progress bar ( or even replace it with a spinner ) 
 - Provide as single executable file
 
 This it's just a python GUI made with pythonQT for the ps3iso utilites programs created by Estwald/Hermes
