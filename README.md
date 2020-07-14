@@ -30,4 +30,5 @@ You could either double click on `PS3_ISO_Tools.py` (which depending on your dis
 - Provide a installer for different package managers to install the dependencies python3, python3-pip and python3-pyqt5
 
 
-This it's just a python GUI made with pythonQT for the ps3iso utilites programs created by Estwald/Hermes
+This it's just a python GUI made with pythonQT created by Klairm for the ps3iso utilites programs created by Estwald/Hermes
+That's why there's 2 binaries included in a folder, those were created  by Estwald/Hermes
