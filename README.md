@@ -3,8 +3,12 @@ A GUI for use the iso tools created by Hermes
 
 You will need python3 for use this.
 
+
+## Dependencies needed:
+python3, python3-pip, python3-pyqt5
+
 ## Setup
-This will clone the repository, and execute a script for copy the binary iso tools into `/usr/bin/` so the files can be executed from anywhere
+This will clone the repository, and execute a script for copy the binary iso tools into `/usr/bin/` so the files can be executed from anywhere, and also will install the dependencies for python3
 ```
 git clone https://github.com/Klairm/LINUX-PS3-ISO-TOOLS
 
@@ -19,5 +23,7 @@ You could either double click on `PS3_ISO_Tools.py` (which depending on your dis
 - Add error handler ( right now if something goes wrong the GUI won't tell)
 - Optimize the progress bar ( or even replace it with a spinner ) 
 - Provide as single executable file
+- Provide a installer for different package managers to install the dependencies python3, python3-pip and python3-pyqt5
+
 
 This it's just a python GUI made with pythonQT for the ps3iso utilites programs created by Estwald/Hermes
