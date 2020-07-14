@@ -3,7 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import (QMainWindow, QTextEdit, 
     QAction, QFileDialog, QApplication,QMessageBox)
-import numpy,time,sys
+import time,sys
 
 p = QtCore.QProcess()
 
