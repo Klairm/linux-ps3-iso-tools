@@ -1,7 +1,8 @@
 # LINUX-PS3-ISO-TOOLS
-A GUI for use the ps3 iso tools 
 
-You will need python3 for use this.
+![image](https://i.imgur.com/4y9Z4n7.png)
+
+A GUI for use the ps3 iso tools on Linux
 
 ## Using the release version:
 For use the release version you will need ( for now ) be in a 64bit machine with the python version: Python 3.8.3
@@ -28,7 +29,9 @@ You could either double click on `PS3_ISO_Tools.py` (which depending on your dis
 - Add error handler ( right now if something goes wrong the GUI won't tell)
 - Optimize the progress bar ( or even replace it with a spinner ) 
 - Provide a installer for different package managers to install the dependencies python3, python3-pip and python3-pyqt5
-
+- Make a greater GUI
 
 This it's just a python GUI made with pythonQT created by Klairm for the ps3iso utilites programs created by Estwald/Hermes
 That's why there's 2 binaries included in a folder, those were created  by Estwald/Hermes
+
+![image](https://i.imgur.com/cTZlvDO.png)
