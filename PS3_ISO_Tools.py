@@ -55,7 +55,10 @@ class Ui_MainWindow(object):
         self.PbConvertISO.setText(_translate("MainWindow", "Convert to ISO"))
 
     def extract_create_iso(self, command):
+        if self.p != None:
+            self.p.kill()
         self.text.clear()
+
         game = False
         if command == 'extractps3iso':
             game, _ = QFileDialog.getOpenFileName(
@@ -91,13 +94,11 @@ class Ui_MainWindow(object):
     def handle_stderr(self):
         data = self.p.readAllStandardError()
         stderr = bytes(data).decode("utf8")
-
         self.message(stderr)
 
     def handle_stdout(self):
         data = self.p.readAllStandardOutput()
         stdout = bytes(data).decode("utf8")
-
         self.message(stdout)
 
     def handle_state(self, state):
