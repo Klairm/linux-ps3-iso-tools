@@ -24,36 +24,13 @@
 #include <sys/stat.h>
 #include <time.h>
 
-#if defined(__MSVCRT__)
-#define stat _stati64
-#endif
-
 #define u8 unsigned char
 #define u16 unsigned short
 #define u32 unsigned int
 #define u64 unsigned long long
 
-void get_input_char() { printf("\nCheck the error and try again"); }
-
 int verbose = 1;
 
-#ifdef __MSVCRT__
-#include <winbase.h>
-#include <windows.h>
-
-static u64 get_disk_free_space(char *path) {
-
-  DWORD SectorsPerCluster, BytesPerSector, NumberOfFreeClusters,
-      TotalNumberOfClusters;
-
-  if (!GetDiskFreeSpace(path, &SectorsPerCluster, &BytesPerSector,
-                        &NumberOfFreeClusters, &TotalNumberOfClusters))
-    return (u64)(-1LL);
-
-  return ((u64)BytesPerSector) * ((u64)SectorsPerCluster) *
-         ((u64)NumberOfFreeClusters);
-}
-#elif defined(__unix__) || defined(__APPLE__)
 #include <sys/statvfs.h>
 
 static u64 get_disk_free_space(char *path) {
@@ -70,11 +47,7 @@ static u64 get_disk_free_space(char *path) {
 #define fseeko64 fseek
 #endif
 
-#else
-#error "include here your own method to get free disk space or remove this line"
-
-static u64 get_disk_free_space(char *path) { return (u64)(-1LL); }
-#endif
+// static u64 get_disk_free_space(char *path) { return (u64)(-1LL); }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -442,7 +415,7 @@ int main(int argc, const char *argv[]) {
     printf("Enter PS3 ISO to extract:\n");
     if (fgets(path1, 0x420, stdin) == 0) {
       printf("Error Input PS3 ISO!\n\n \n");
-      get_input_char();
+
       return -1;
     }
     printf("\n");
@@ -455,7 +428,7 @@ int main(int argc, const char *argv[]) {
 
   if (path1[0] == 0) {
     printf("Error: ISO file don't exists!\n\n \n");
-    get_input_char();
+
     return -1;
   }
 
@@ -469,7 +442,7 @@ int main(int argc, const char *argv[]) {
     sprintf(split_file[0].path, "%s", path1);
     if (stat(split_file[0].path, &s) < 0) {
       printf("Error: ISO file don't exists!\n\n\n");
-      get_input_char();
+
       return -1;
     }
 
@@ -497,7 +470,7 @@ int main(int argc, const char *argv[]) {
   } else {
     printf(
         "Error: file must be with .iso, .ISO .iso.0 or .ISO.0 extension\n\n\n");
-    get_input_char();
+
     return -1;
   }
 
@@ -506,7 +479,7 @@ int main(int argc, const char *argv[]) {
     printf("Enter Path Folder to Extract:\n");
     if (fgets(path2, 0x420, stdin) == 0) {
       printf("Error Input Path Folder to Extract!\n\n\n");
-      get_input_char();
+
       return -1;
     }
   } else {
@@ -569,7 +542,7 @@ int main(int argc, const char *argv[]) {
   FILE *fp = fopen(path1, "rb");
   if (!fp) {
     printf("Error!: Cannot open ISO file\n\n\n\n");
-    get_input_char();
+
     return -1;
   }
 
@@ -771,7 +744,6 @@ int main(int argc, const char *argv[]) {
 
           printf("Warning! Entry directory break the standard ISO "
                  "9660\n\nPress ENTER key\n\n");
-          get_input_char();
 
           if (fseeko64(fp, lba * 2048 + 2048, SEEK_SET) < 0) {
             printf("Error!: in directory_record fseek\n\n");

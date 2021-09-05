@@ -38,47 +38,6 @@ int verbose = 1;
 #define u32 unsigned int
 #define u64 unsigned long long
 
-void get_input_char() { printf("\nCheck the error and try again"); }
-
-#ifdef __MSVCRT__
-#include <winbase.h>
-#include <wincrypt.h>
-#include <windows.h>
-
-// get_rand() method from ps3netsrv Cobra Sources...
-
-static void get_rand(void *bfr, u32 size) {
-  HCRYPTPROV hProv;
-
-  if (size == 0)
-    return;
-
-  if (!CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_FULL,
-                           CRYPT_VERIFYCONTEXT)) {
-    fprintf(stderr, "Error aquiring crypt context.\n");
-    return;
-  }
-
-  if (!CryptGenRandom(hProv, size, (BYTE *)bfr))
-    fprintf(stderr, "Error getting random numbers.\n");
-
-  CryptReleaseContext(hProv, 0);
-}
-
-static u64 get_disk_free_space(char *path) {
-
-  DWORD SectorsPerCluster, BytesPerSector, NumberOfFreeClusters,
-      TotalNumberOfClusters;
-
-  if (!GetDiskFreeSpace(path, &SectorsPerCluster, &BytesPerSector,
-                        &NumberOfFreeClusters, &TotalNumberOfClusters))
-    return (u64)(-1LL);
-
-  return ((u64)BytesPerSector) * ((u64)SectorsPerCluster) *
-         ((u64)NumberOfFreeClusters);
-}
-
-#elif defined(__unix__) || defined(__APPLE__)
 #include <sys/statvfs.h>
 
 // get_rand() method from ps3netsrv Cobra Sources...
@@ -111,11 +70,7 @@ static u64 get_disk_free_space(char *path) {
   return (((u64)svfs.f_bsize * svfs.f_bfree));
 }
 
-#else
-#error "include here your own method to get free disk space or remove this line"
-
-static u64 get_disk_free_space(char *path) { return (u64)(-1LL); }
-#endif
+// static u64 get_disk_free_space(char *path) { return (u64)(-1LL); }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2066,7 +2021,7 @@ int main(int argc, const char *argv[]) {
 
     printf("Error!: stat st_size must be a 64 bit number!  (size %lu)\n\n ",
            sizeof(s.st_size));
-    get_input_char();
+
     return -1;
   }
 
@@ -2114,7 +2069,7 @@ int main(int argc, const char *argv[]) {
     printf("Enter Path Folder:\n");
     if (fgets(path1, 0x420, stdin) == 0) {
       printf("Error Input Path Folder!\n\n \n");
-      get_input_char();
+
       return -1;
     }
   } else {
@@ -2128,7 +2083,7 @@ int main(int argc, const char *argv[]) {
 
   if (stat(path1, &s) < 0 || !(S_ISDIR(s.st_mode))) {
     printf("Invalid Path Folder!\n\n \n");
-    get_input_char();
+
     return -1;
   }
 
@@ -2137,7 +2092,6 @@ int main(int argc, const char *argv[]) {
 
   if (parse_param_sfo(path2, title_id, output_name) < 0) {
     printf("Error!: PARAM.SFO not found!\n");
-    printf("\n \n");
 
     return -1;
   } else {
@@ -2152,7 +2106,7 @@ int main(int argc, const char *argv[]) {
     printf("\nEnter ISO filename or path (press enter to default name):\n");
     if (fgets(output_name, 0x420, stdin) == 0) {
       printf("Error Input ISO filename or path!\n\n \n");
-      get_input_char();
+
       return -1;
     }
   } else {
@@ -2188,7 +2142,7 @@ int main(int argc, const char *argv[]) {
 
   if (nlen < 1) {
     strcpy(output_name, path2); /*printf("ISO name too short!\n\n \n");
-                                   get_input_char();return -1;*/
+                                     return -1;*/
   } else {
 
     if (stat(output_name, &s) == 0 && (S_ISDIR(s.st_mode))) {
@@ -2215,8 +2169,7 @@ int main(int argc, const char *argv[]) {
 
   if (!directory_iso) {
     printf("Out of Memory (directory_iso mem)\n");
-    printf("\n \n");
-    get_input_char();
+
     return -1;
   }
 
@@ -2286,8 +2239,7 @@ int main(int argc, const char *argv[]) {
 
   if (!sectors) {
     printf("Out of Memory (sectors mem)\n");
-    printf("\n \n");
-    get_input_char();
+
     goto err;
   }
 
@@ -2574,11 +2526,6 @@ int main(int argc, const char *argv[]) {
            (u32)(((t_finish - t_start) / (CLOCKS_PER_SEC)) % 60),
            (u32)(((t_finish - t_start) / (CLOCKS_PER_SEC / 100)) % 100));
 
-  if (argc < 2) {
-    printf("\n \n");
-    get_input_char();
-  }
-
   return 0;
 
 err:
@@ -2596,9 +2543,6 @@ err:
 
   if (sectors)
     free(sectors);
-
-  printf("\n \n");
-  get_input_char();
 
   return -1;
 }
