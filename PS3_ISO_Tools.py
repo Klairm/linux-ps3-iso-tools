@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import (QMainWindow, QTextEdit,
@@ -31,12 +31,14 @@ class Ui_MainWindow(object):
         self.PbExtract = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.PbExtract.setObjectName("PbExtract")
         self.gridLayout.addWidget(self.PbExtract, 0, 1, 1, 1)
-        self.PbExtract.clicked.connect(self.extractISO)
+        self.PbExtract.clicked.connect(
+            lambda: self.extract_create_iso('extractps3iso'))
 
         self.PbConvertISO = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.PbConvertISO.setObjectName("PbConvertISO")
         self.gridLayout.addWidget(self.PbConvertISO, 1, 1, 1, 1)
-        self.PbConvertISO.clicked.connect(self.makeISO)
+        self.PbConvertISO.clicked.connect(
+            lambda: self.extract_create_iso('makeps3iso'))
 
         self.text = QtWidgets.QPlainTextEdit(self.centralwidget)
         self.text.setReadOnly(True)
@@ -52,41 +54,26 @@ class Ui_MainWindow(object):
         self.PbExtract.setText(_translate("MainWindow", "Extract ISO"))
         self.PbConvertISO.setText(_translate("MainWindow", "Convert to ISO"))
 
-
-# TODO: extractISO() and makeISO() is nearly the same, optimize this in one function
-
-    def extractISO(self):
+    def extract_create_iso(self, command):
         self.text.clear()
-        filename = QFileDialog.getOpenFileName(
-            None, "Open ISO File", '.', "ISO Files (*.iso)")
-        if filename:
+        game = False
+        if command == 'extractps3iso':
+            game, _ = QFileDialog.getOpenFileName(
+                None, "Open ISO File", '.', "ISO Files (*.iso)")
+        elif command == 'makeps3iso':
+            game = QFileDialog.getExistingDirectory(
+                None, "Select game folder (example BLES/BLUS)")
+        if game and os.path.exists(game):
             destination = QFileDialog.getExistingDirectory(
                 None, "Select destination folder")
             if destination:
-                command = "./bin/extractps3iso"
-                arguments = [filename[0], destination]
-                self.start_process(command, arguments)
-            else:
-                pass
-        else:
-            pass
-
-    def makeISO(self):
-        self.text.clear()
-        game = QFileDialog.getExistingDirectory(
-            None, "Select game folder (example BLES/BLUS)")
-
-        if game:
-            destination = QFileDialog.getExistingDirectory(
-                None, "Select destination folder")
-            if destination:
-                command = "./bin/makeps3iso"
+                binary = f'./bin/{command}'
                 arguments = [game, destination]
-                self.start_process(command, arguments)
+                self.start_process(binary, arguments)
             else:
-                pass
+                self.message("Select destination folder!")
         else:
-            pass
+            self.message("Select game!")
 
     def start_process(self, command, arguments):
         if self.p is None:
